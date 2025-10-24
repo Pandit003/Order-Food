@@ -2,8 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.OrderFood" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/primaryColor</item>
     </style>
 
     <style name="Theme.OrderFood" parent="Base.Theme.OrderFood" />
+
+    <style name="CustomSearchViewTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlActivated">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:queryBackground">@android:color/transparent</item>
+    </style>
 </resources>
