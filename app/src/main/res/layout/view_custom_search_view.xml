@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Root container: clickable so tapping anywhere focuses the edit text -->
+    <LinearLayout
+        android:id="@+id/search_root"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="@drawable/search_bar_bg"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- Left back arrow -->
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="4dp"
+            app:tint="@color/primaryColor"
+            android:src="@drawable/baseline_keyboard_arrow_left_24"
+            android:contentDescription="back" />
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="4dp"
+            app:tint="@color/primaryColor"
+            android:visibility="gone"
+            android:src="@drawable/baseline_search_24"
+            android:contentDescription="back" />
+
+        <!-- Editable text area (use Material if you want) -->
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search"
+            android:background="@null"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="16sp" />
+
+        <!-- Clear / cross icon (hidden by default) -->
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:src="@drawable/baseline_close_24"
+            android:visibility="gone"
+            android:contentDescription="clear"
+            app:tint="#484848" />
+
+        <!-- Mic button on the right -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#C4C4C4"
+            android:layout_marginVertical="5dp"/>
+        <ImageView
+            android:id="@+id/iv_mic"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:src="@drawable/baseline_mic_24"
+            app:tint="@color/primaryColor"
+            android:contentDescription="mic" />
+
+    </LinearLayout>
+
+</merge>
