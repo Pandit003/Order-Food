@@ -1,5 +1,6 @@
 package com.example.orderfood
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
@@ -14,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -25,14 +28,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfood.adapter.FoodCategoriesAdapter
 import com.example.orderfood.adapter.SearchFoodAdapter
 import com.example.orderfood.model.Category
+import com.example.orderfood.model.FoodItem
 
 class MainActivity : AppCompatActivity() {
-    private val searchSuggestions = listOf("'Pizza'", "'Burger'", "'Biryani'")
+    private val searchSuggestions = listOf("'Soup'", "'Roti'", "'Biryani'")
     private var hintIndex = 0
     private lateinit var etSearch: EditText
     private lateinit var rv_catOption: RecyclerView
+    private lateinit var rv_allfood: RecyclerView
     private val hintHandler = Handler(Looper.getMainLooper())
     private lateinit var foodCategoriesAdapter: FoodCategoriesAdapter
+    private lateinit var searchFoodAdapter: SearchFoodAdapter
     private val hintRunnable = object : Runnable {
         override fun run() {
             val animOut = AnimationUtils.loadAnimation(this@MainActivity, R.anim.hint_up)
@@ -80,22 +86,36 @@ class MainActivity : AppCompatActivity() {
         hintHandler.post(hintRunnable)
 
         val categories = listOf(
-            Category("", "Pizza",R.drawable.baseline_local_pizza_24),
-            Category("", "Burger",R.drawable.location),
-            Category("", "Biryani",R.drawable.baseline_mic_24),
-            Category("", "Pasta",R.drawable.search_bar_bg)
+            Category("", "All",R.drawable.all_food),
+            Category("", "Biryani",R.drawable.biryani_img),
+            Category("", "Noodles",R.drawable.noodles),
+            Category("", "Soup",R.drawable.soup),
+            Category("", "Roti",R.drawable.roti_1)
         )
+        val foodItems = loadFoodItemsFromAssets(this)
         rv_catOption = findViewById(R.id.rv_catOption)
         rv_catOption.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
         foodCategoriesAdapter = FoodCategoriesAdapter(this,categories)  // or your data list
         rv_catOption.adapter = foodCategoriesAdapter
-    }
 
+        rv_allfood = findViewById(R.id.rv_Allfood)
+        rv_allfood.layoutManager = LinearLayoutManager(this)
+        searchFoodAdapter  = SearchFoodAdapter(this,foodItems)  // or your data list
+        rv_allfood.adapter = searchFoodAdapter
+    }
+    private fun getDummyList(): List<String> = listOf(
+        "Pizza", "Burger", "Pasta", "Sandwich", "Momos", "Noodles", "Biryani", "Ice Cream"
+    )
     override fun onDestroy() {
         super.onDestroy()
         hintHandler.removeCallbacks(hintRunnable) // stop updates when activity is destroyed
     }
-/*    override fun onBackPressed() {
+    fun loadFoodItemsFromAssets(context: Context): List<FoodItem> {
+        val json = context.assets.open("food_items.json").bufferedReader().use { it.readText() }
+        val listType = object : TypeToken<List<FoodItem>>() {}.type
+        return Gson().fromJson(json, listType)
+    }
+    /*override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }*/

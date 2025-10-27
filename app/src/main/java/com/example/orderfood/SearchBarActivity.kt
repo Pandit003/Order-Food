@@ -29,6 +29,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orderfood.adapter.SearchFoodAdapter
+import com.example.orderfood.model.FoodItem
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SearchBarActivity : AppCompatActivity() {
     private lateinit var searchFoodAdapter: SearchFoodAdapter
@@ -47,9 +50,10 @@ class SearchBarActivity : AppCompatActivity() {
         val ivClear: ImageView = findViewById(R.id.iv_clear)
         val ivMic: ImageView = findViewById(R.id.iv_mic)
         val ivBack: ImageView = findViewById(R.id.iv_back)
+        val foodItems = loadFoodItemsFromAssets(this)
         recyclerView = findViewById(R.id.rv_food_items)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        searchFoodAdapter  = SearchFoodAdapter(this,getDummyList())  // or your data list
+        searchFoodAdapter  = SearchFoodAdapter(this,foodItems)  // or your data list
         recyclerView.adapter = searchFoodAdapter
         etSearch.requestFocus()
         root.setOnClickListener {
@@ -126,5 +130,9 @@ class SearchBarActivity : AppCompatActivity() {
             }
         }
     }
-
+    fun loadFoodItemsFromAssets(context: Context): List<FoodItem> {
+        val json = context.assets.open("food_items.json").bufferedReader().use { it.readText() }
+        val listType = object : TypeToken<List<FoodItem>>() {}.type
+        return Gson().fromJson(json, listType)
+    }
 }

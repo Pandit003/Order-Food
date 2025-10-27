@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "name": "Veg Biryani",
+    "description": "Aromatic basmati rice cooked with fresh vegetables and traditional Indian spices.",
+    "imageUrl": "https://assets.gqindia.com/photos/5edf897e0f82d6d3cee5f0a7/16:9/w_1280,c_limit/veg-biryani-recipes.jpg",
+    "categoryId": "rice_dishes",
+    "price": 180.0,
+    "discountPercent": 10.0,
+    "isAvailable": true,
+    "rating": 4.5,
+    "totalRatings": 250,
+    "tags": ["veg", "biryani", "rice", "spicy", "indian"],
+    "addons": [
+      { "id": "a1", "name": "Raita", "price": 20.0 },
+      { "id": "a2", "name": "Salad", "price": 15.0 }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Matar Paneer",
+    "description": "Soft paneer cubes cooked with green peas in a rich tomato gravy.",
+    "imageUrl": "https://t3.ftcdn.net/jpg/16/62/06/20/360_F_1662062013_jCK2Ju2ViT6IITUnIHaYlm27PgWZlKD1.jpg",
+    "categoryId": "curries",
+    "price": 160.0,
+    "discountPercent": 5.0,
+    "isAvailable": true,
+    "rating": 4.3,
+    "totalRatings": 180,
+    "tags": ["veg", "paneer", "curry", "north indian"],
+    "addons": [
+      { "id": "a3", "name": "Extra Paneer", "price": 30.0 },
+      { "id": "a4", "name": "Butter Naan", "price": 25.0 }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Kadhai Paneer",
+    "description": "Paneer cubes tossed with capsicum, onion, and tomato in spicy kadhai masala.",
+    "imageUrl": "https://t3.ftcdn.net/jpg/07/08/98/24/360_F_708982461_b4FgTxJ5wt81dy1saVjkSbc8ywiL8r9e.jpg",
+    "categoryId": "curries",
+    "price": 170.0,
+    "discountPercent": 0.0,
+    "isAvailable": true,
+    "rating": 4.6,
+    "totalRatings": 200,
+    "tags": ["veg", "paneer", "spicy", "indian"],
+    "addons": [
+      { "id": "a5", "name": "Tandoori Roti", "price": 20.0 },
+      { "id": "a6", "name": "Butter Naan", "price": 25.0 }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Laccha Paratha",
+    "description": "Flaky, layered paratha made with whole wheat flour, crisp outside and soft inside.",
+    "imageUrl": "https://www.scratchingcanvas.com/wp-content/uploads/2019/04/Laccha-Paratha-Easy.3.jpg",
+    "categoryId": "breads",
+    "price": 35.0,
+    "discountPercent": 0.0,
+    "isAvailable": true,
+    "rating": 4.2,
+    "totalRatings": 150,
+    "tags": ["veg", "bread", "indian", "paratha"],
+    "addons": [{ "id": "a7", "name": "Butter", "price": 10.0 }]
+  },
+  {
+    "id": "5",
+    "name": "Jeera Rice",
+    "description": "Fragrant basmati rice cooked with cumin seeds for a subtle and aromatic flavor.",
+    "imageUrl": "https://png.pngtree.com/background/20250203/original/pngtree-basmati-spiced-rice-nasi-kebuli-cumin-or-jeera-rice-picture-image_15524640.jpg",
+    "categoryId": "rice_dishes",
+    "price": 120.0,
+    "discountPercent": 0.0,
+    "isAvailable": true,
+    "rating": 4.4,
+    "totalRatings": 130,
+    "tags": ["veg", "rice", "indian", "simple"],
+    "addons": [
+      { "id": "a8", "name": "Dal Tadka", "price": 60.0 },
+      { "id": "a9", "name": "Raita", "price": 20.0 }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Chicken Roll",
+    "description": "Spicy grilled chicken wrapped in a soft paratha with onions and tangy sauce.",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5v2CFDRKV3s9GHDHfJfAdr49cgk-UpxAAPTDy677OfKgyUgtNRlFp2MGVrdiQA5CdmTE&usqp=CAU",
+    "categoryId": "snacks",
+    "price": 150.0,
+    "discountPercent": 15.0,
+    "isAvailable": true,
+    "rating": 4.7,
+    "totalRatings": 300,
+    "tags": ["non-veg", "chicken", "roll", "snack", "street food"],
+    "addons": [
+      { "id": "a10", "name": "Extra Mayo", "price": 10.0 },
+      { "id": "a11", "name": "Cheese", "price": 20.0 }
+    ]
+  }
+]
