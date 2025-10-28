@@ -1,41 +1,36 @@
-package com.example.orderfood
+package com.example.orderfood.activity
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orderfood.FoodDetailBottomSheet
+import com.example.orderfood.R
 import com.example.orderfood.adapter.SearchFoodAdapter
+import com.example.orderfood.interfaces.OnSelectFoodClickListener
 import com.example.orderfood.model.FoodItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchBarActivity : AppCompatActivity() {
+class SearchBarActivity : AppCompatActivity(), OnSelectFoodClickListener {
     private lateinit var searchFoodAdapter: SearchFoodAdapter
     private lateinit var recyclerView: RecyclerView
+    var foodItems : List<FoodItem> = listOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,7 +45,7 @@ class SearchBarActivity : AppCompatActivity() {
         val ivClear: ImageView = findViewById(R.id.iv_clear)
         val ivMic: ImageView = findViewById(R.id.iv_mic)
         val ivBack: ImageView = findViewById(R.id.iv_back)
-        val foodItems = loadFoodItemsFromAssets(this)
+        foodItems = loadFoodItemsFromAssets(this)
         recyclerView = findViewById(R.id.rv_food_items)
         recyclerView.layoutManager = LinearLayoutManager(this)
         searchFoodAdapter  = SearchFoodAdapter(this,foodItems)  // or your data list
@@ -75,32 +70,25 @@ class SearchBarActivity : AppCompatActivity() {
                 putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now")
             }
             speechLauncher.launch(intent)
-//            val REQUEST_CODE_SPEECH = 1
-//            startActivityForResult(intent, REQUEST_CODE_SPEECH)  // handle result in onActivityResult or new ActivityResult API
         }
 
-// Clear icon action
         ivClear.setOnClickListener {
             etSearch.text?.clear()
             ivClear.visibility = View.GONE
         }
 
-// Show/hide clear icon based on text
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val hasText = !s.isNullOrEmpty()
                 searchFoodAdapter.filter(s.toString())
                 ivClear.visibility = if (hasText) View.VISIBLE else View.GONE
-                // optionally hide mic when typing: ivMic.visibility = if (hasText) View.GONE else View.VISIBLE
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-// Optionally handle search action from keyboard
         etSearch.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = etSearch.text.toString().trim()
-                // perform search
                 hideKeyboard(etSearch)
                 true
             } else false
@@ -112,14 +100,10 @@ class SearchBarActivity : AppCompatActivity() {
         imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    // helper to hide keyboard
     fun hideKeyboard(view: View) {
         val imm = view.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    private fun getDummyList(): List<String> = listOf(
-        "Pizza", "Burger", "Pasta", "Sandwich", "Momos", "Noodles", "Biryani", "Ice Cream"
-    )
     private val speechLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -134,5 +118,12 @@ class SearchBarActivity : AppCompatActivity() {
         val json = context.assets.open("food_items.json").bufferedReader().use { it.readText() }
         val listType = object : TypeToken<List<FoodItem>>() {}.type
         return Gson().fromJson(json, listType)
+    }
+
+    override fun onSelectedClicked(pos: Int) {
+        val sheet = FoodDetailBottomSheet(
+            foodItems , pos
+        )
+        sheet.show(supportFragmentManager, "FoodDetailBottomSheet")
     }
 }

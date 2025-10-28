@@ -15,16 +15,16 @@ import com.example.orderfood.interfaces.OnFoodItemClickListener
 import com.example.orderfood.interfaces.OnSelectFoodClickListener
 import com.example.orderfood.model.FoodItem
 
-class SearchFoodAdapter(private val listener: OnSelectFoodClickListener, private var allItems: List<FoodItem>) : RecyclerView.Adapter<SearchFoodAdapter.ViewHolder>() {
-    private var filteredItems = allItems.toMutableList()
-    private val context = listener as Context
+class AddToCartAdapter() : RecyclerView.Adapter<AddToCartAdapter.ViewHolder>() {
+/*    private var filteredItems = allItems.toMutableList()
+    private val context = listener as Context*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_food_list,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layou_add_to_cart,parent,false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = filteredItems[position]
+        /*val item = filteredItems[position]
         holder.tv_name.text = item.name
         holder.tv_rating.text = item.rating.toString()
         holder.tv_rated_by.text = "By "+item.totalRatings.toString()+"+"
@@ -37,14 +37,14 @@ class SearchFoodAdapter(private val listener: OnSelectFoodClickListener, private
             .into(holder.iv_food_img)
         holder.iv_food_img.setOnClickListener {
             listener.onSelectedClicked(position)
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
-        return filteredItems.size
+        return 2
     }
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
-        var tv_name : TextView
+        /*var tv_name : TextView
         var tv_desc : TextView
         var tv_rating : TextView
         var tv_rated_by : TextView
@@ -59,14 +59,14 @@ class SearchFoodAdapter(private val listener: OnSelectFoodClickListener, private
             tv_price = view.findViewById(R.id.tv_price)
             iv_food_img = view.findViewById(R.id.iv_food_img)
             red_line = view.findViewById(R.id.red_line)
-        }
+        }*/
     }
-    fun filter(query: String) {
+    /*fun filter(query: String) {
         filteredItems = if (query.isEmpty()) {
             allItems.toMutableList()
         } else {
             allItems.filter { it.name.contains(query, ignoreCase = true) }.toMutableList()
         }
         notifyDataSetChanged()
-    }
+    }*/
 }

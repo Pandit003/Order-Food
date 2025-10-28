@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/search_bar_bg"
+    android:padding="16dp">
+
+    <!-- Close icon -->
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/baseline_close_24"
+        android:layout_gravity="end"
+        android:contentDescription="Close"/>
+
+    <!-- Food Image -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="8dp"
+        android:elevation="8dp">
+    <ImageView
+        android:id="@+id/iv_food"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/veg_biryani" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Food Name -->
+    <TextView
+        android:id="@+id/tv_food_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chicken Biryani"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Food Description -->
+    <TextView
+        android:id="@+id/tv_food_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delicious Hyderabadi biryani with spices"
+        android:textSize="14sp"
+        android:textColor="#6D6D6D"
+        android:layout_marginTop="6dp"/>
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_to_cart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:background="@null"
+                android:background="@drawable/round_corner"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="10dp"
+                android:text="Add to Cart" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_buy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/search_bar_bg"
+                app:background="@null"
+                android:layout_marginHorizontal="10dp"
+                android:text="Buy Now"
+                android:backgroundTint="#FFC107"/>
+        </LinearLayout>
+
+
+</LinearLayout>
