@@ -11,21 +11,26 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.view.animation.AnimationUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.orderfood.FoodDetailBottomSheet
+import com.example.orderfood.widgets.FoodDetailBottomSheet
 import com.example.orderfood.R
 import com.example.orderfood.adapter.FoodCategoriesAdapter
 import com.example.orderfood.adapter.SearchFoodAdapter
 import com.example.orderfood.interfaces.OnFoodItemClickListener
 import com.example.orderfood.interfaces.OnSelectFoodClickListener
+import com.example.orderfood.localDatabase.AppDatabase
 import com.example.orderfood.model.Category
 import com.example.orderfood.model.FoodItem
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodClickListener {
     private val searchSuggestions = listOf("'Soup'", "'Roti'", "'Biryani'")
@@ -34,10 +39,14 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
     private lateinit var rv_catOption: RecyclerView
     private lateinit var rv_allfood: RecyclerView
     private lateinit var iv_addToCart: ImageView
+    private lateinit var iv_profile: ImageView
+    private lateinit var badgeTextView: TextView
     private val hintHandler = Handler(Looper.getMainLooper())
     private lateinit var foodCategoriesAdapter: FoodCategoriesAdapter
     private lateinit var searchFoodAdapter: SearchFoodAdapter
     var foodItems : List<FoodItem> = listOf()
+    var cartCount = 0
+
     private val hintRunnable = object : Runnable {
         override fun run() {
             val animOut = AnimationUtils.loadAnimation(this@MainActivity, R.anim.hint_up)
@@ -73,7 +82,9 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
         etSearch = findViewById(R.id.et_search)
         val iv_search : ImageView = findViewById(R.id.iv_search)
         val iv_back : ImageView = findViewById(R.id.iv_back)
-        val iv_addToCart : ImageView = findViewById(R.id.iv_addToCart)
+        iv_addToCart = findViewById(R.id.iv_addToCart)
+        iv_profile = findViewById(R.id.iv_profile)
+        badgeTextView = findViewById(R.id.badge_text_view)
         iv_search.isVisible = true
         iv_back.isVisible = false
         etSearch.isFocusable = false
@@ -85,7 +96,10 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
             val intent = Intent(this, AddToCartActivity::class.java)
             startActivity(intent)
         }
-
+        iv_profile.setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
         hintHandler.post(hintRunnable)
 
         val categories = listOf(
@@ -113,6 +127,19 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
         super.onDestroy()
         hintHandler.removeCallbacks(hintRunnable) // stop updates when activity is destroyed
     }
+    fun getCartCount() {
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(this@MainActivity)
+            val cartFood = db.messageDao().getAllMessages().toMutableList()
+            cartCount = cartFood.size
+            if (cartCount > 0) {
+                badgeTextView.text = cartCount.toString()
+                badgeTextView.visibility = View.VISIBLE
+            } else {
+                badgeTextView.visibility = View.GONE
+            }
+        }
+    }
     fun loadFoodItemsFromAssets(context: Context): List<FoodItem> {
         val json = context.assets.open("food_items.json").bufferedReader().use { it.readText() }
         val listType = object : TypeToken<List<FoodItem>>() {}.type
@@ -130,7 +157,12 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
         val sheet = FoodDetailBottomSheet(
             foodItems , pos
         )
+        getCartCount()
         sheet.show(supportFragmentManager, "FoodDetailBottomSheet")
+    }
+    override fun onResume() {
+        super.onResume()
+        getCartCount()
     }
     /*override fun onBackPressed() {
         super.onBackPressed()

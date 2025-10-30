@@ -1,18 +1,24 @@
 package com.example.orderfood.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 data class FoodItem(
-    val id: String = "",                     // Unique ID
-    val name: String = "",                   // Food name
-    val description: String = "",            // Short description
-    val imageUrl: String = "",               // Image URL or URI
-    val categoryId: String = "",             // Link to category
-    val price: Double = 0.0,                 // Base price
-    val discountPercent: Double = 0.0,       // Optional discount
-    val isAvailable: Boolean = true,         // Availability flag
-    val rating: Float = 0f,                  // Average rating
-    val totalRatings: Int = 0,               // Total number of ratings
-    val tags: List<String> = emptyList(),    // Search/filter keywords
-    val addons: List<AddOn> = emptyList()    // Extra items like cheese, coke, etc.
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val name: String = "",
+    val description: String = "",
+    val imageUrl: String = "",
+    val categoryId: String = "",
+    val price: Double = 0.0,
+    val discountPercent: Double = 0.0,
+    val finalPrice: Double = 0.0,
+    val isAvailable: Boolean = true,
+    val rating: Float = 0f,
+    val totalRatings: Int = 0,
+    val quantity: Int = 0,
+    val tags: List<String> = emptyList(),
+    val addons: List<AddOn> = emptyList()
 )
 data class AddOn(
     val id: String = "",

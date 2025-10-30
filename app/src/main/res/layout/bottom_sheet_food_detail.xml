@@ -74,7 +74,8 @@
                 app:background="@null"
                 android:background="@drawable/round_corner"
                 android:textColor="@color/black"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
                 android:text="Add to Cart" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_buy"
@@ -83,7 +84,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/search_bar_bg"
                 app:background="@null"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
                 android:text="Buy Now"
                 android:backgroundTint="#FFC107"/>
         </LinearLayout>

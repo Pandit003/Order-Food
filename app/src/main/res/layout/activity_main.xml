@@ -66,14 +66,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/iv_addToCart"
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="10dp"
-                        android:src="@drawable/outline_add_shopping_cart_24" />
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_addToCart"
+                            android:layout_width="wrap_content"
+                            android:padding="10dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/outline_shopping_cart_24" />
+
+                        <TextView
+                            android:id="@+id/badge_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top|end"
+                            android:background="@drawable/red_circle_background"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:paddingStart="4dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:paddingEnd="4dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:text="3"
+                            android:gravity="center"
+                            android:minWidth="18dp"
+                            android:minHeight="18dp"
+                            android:elevation="2dp" />
+
+                    </FrameLayout>
 
                     <ImageView
+                        android:id="@+id/iv_profile"
                         android:layout_width="35dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/account"

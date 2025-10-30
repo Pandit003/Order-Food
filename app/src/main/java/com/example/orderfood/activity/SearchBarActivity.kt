@@ -19,7 +19,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.orderfood.FoodDetailBottomSheet
+import com.example.orderfood.widgets.FoodDetailBottomSheet
 import com.example.orderfood.R
 import com.example.orderfood.adapter.SearchFoodAdapter
 import com.example.orderfood.interfaces.OnSelectFoodClickListener

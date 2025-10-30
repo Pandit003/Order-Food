@@ -1,0 +1,162 @@
+[
+  {
+    "orderId": "ORD1024",
+    "userId": "USR1001",
+    "restaurantName": "Spicy Grill",
+    "restaurantAddress": "MG Road, Pune",
+    "items": [
+      {
+        "itemId": "F101",
+        "name": "Chicken Biryani",
+        "quantity": 2,
+        "pricePerItem": 180.0,
+        "imageUrl": "https://assets.gqindia.com/photos/5edf897e0f82d6d3cee5f0a7/16:9/w_1280,c_limit/veg-biryani-recipes.jpg",
+        "totalPrice": 360.0
+      },
+      {
+        "itemId": "F102",
+        "name": "Butter Naan",
+        "quantity": 3,
+        "pricePerItem": 40.0,
+        "imageUrl": "https://www.scratchingcanvas.com/wp-content/uploads/2019/04/Laccha-Paratha-Easy.3.jpg",
+        "totalPrice": 120.0
+      }
+    ],
+    "totalAmount": 480.0,
+    "discountAmount": 30.0,
+    "deliveryCharge": 20.0,
+    "finalAmount": 470.0,
+    "orderDate": "2025-10-28 19:45",
+    "deliveryTime": "2025-10-28 20:20",
+    "estimatedDeliveryMinutes": 35,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "orderStatus": "Delivered",
+    "deliveryAddress": "Flat 402, Green View Apartments, Pune",
+    "deliveryPersonName": "Amit Kumar",
+    "deliveryPersonPhone": "9876543210",
+    "specialInstructions": "Extra spicy biryani",
+    "rating": 4.5,
+    "feedback": "Food was delicious and well packed!"
+  },
+  {
+    "orderId": "ORD1025",
+    "userId": "USR1001",
+    "restaurantName": "Veg Delight",
+    "restaurantAddress": "JM Road, Pune",
+    "items": [
+      {
+        "itemId": "V201",
+        "name": "Paneer Butter Masala",
+        "quantity": 1,
+        "pricePerItem": 220.0,
+        "imageUrl": "https://t3.ftcdn.net/jpg/07/08/98/24/360_F_708982461_b4FgTxJ5wt81dy1saVjkSbc8ywiL8r9e.jpg",
+        "totalPrice": 220.0
+      },
+      {
+        "itemId": "V202",
+        "name": "Tandoori Roti",
+        "quantity": 4,
+        "pricePerItem": 25.0,
+        "imageUrl": "https://www.scratchingcanvas.com/wp-content/uploads/2019/04/Laccha-Paratha-Easy.3.jpg",
+        "totalPrice": 100.0
+      }
+    ],
+    "totalAmount": 320.0,
+    "discountAmount": 20.0,
+    "deliveryCharge": 15.0,
+    "finalAmount": 315.0,
+    "orderDate": "2025-10-29 13:10",
+    "deliveryTime": "2025-10-29 13:40",
+    "estimatedDeliveryMinutes": 30,
+    "paymentMethod": "COD",
+    "paymentStatus": "Pending",
+    "orderStatus": "Delivered",
+    "deliveryAddress": "Plot 21, Shivaji Nagar, Pune",
+    "deliveryPersonName": "Rohit Sharma",
+    "deliveryPersonPhone": "9988776655",
+    "specialInstructions": "Less oily",
+    "rating": 4.0,
+    "feedback": "Nice food, quick delivery."
+  },
+  {
+    "orderId": "ORD1026",
+    "userId": "USR1001",
+    "restaurantName": "Pizza Factory",
+    "restaurantAddress": "Kalyani Nagar, Pune",
+    "items": [
+      {
+        "itemId": "P301",
+        "name": "Pepperoni Pizza",
+        "quantity": 1,
+        "pricePerItem": 399.0,
+        "imageUrl": "https://t3.ftcdn.net/jpg/16/62/06/20/360_F_1662062013_jCK2Ju2ViT6IITUnIHaYlm27PgWZlKD1.jpg",
+        "totalPrice": 399.0
+      },
+      {
+        "itemId": "P302",
+        "name": "Garlic Breadsticks",
+        "quantity": 1,
+        "pricePerItem": 120.0,
+        "imageUrl": "https://www.scratchingcanvas.com/wp-content/uploads/2019/04/Laccha-Paratha-Easy.3.jpg",
+        "totalPrice": 120.0
+      }
+    ],
+    "totalAmount": 519.0,
+    "discountAmount": 0.0,
+    "deliveryCharge": 30.0,
+    "finalAmount": 549.0,
+    "orderDate": "2025-10-29 20:10",
+    "deliveryTime": "2025-10-29 20:45",
+    "estimatedDeliveryMinutes": 35,
+    "paymentMethod": "Card",
+    "paymentStatus": "Paid",
+    "orderStatus": "On the way",
+    "deliveryAddress": "12, Galaxy Residency, Pune",
+    "deliveryPersonName": "Sunil Patil",
+    "deliveryPersonPhone": "9090909090",
+    "specialInstructions": "Extra cheese on pizza",
+    "rating": null,
+    "feedback": null
+  },
+  {
+    "orderId": "ORD1027",
+    "userId": "USR1001",
+    "restaurantName": "South Spice",
+    "restaurantAddress": "Baner, Pune",
+    "items": [
+      {
+        "itemId": "S401",
+        "name": "Masala Dosa",
+        "quantity": 2,
+        "pricePerItem": 90.0,
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5v2CFDRKV3s9GHDHfJfAdr49cgk-UpxAAPTDy677OfKgyUgtNRlFp2MGVrdiQA5CdmTE&usqp=CAU",
+        "totalPrice": 180.0
+      },
+      {
+        "itemId": "S402",
+        "name": "Filter Coffee",
+        "quantity": 2,
+        "pricePerItem": 60.0,
+        "imageUrl": "https://www.scratchingcanvas.com/wp-content/uploads/2019/04/Laccha-Paratha-Easy.3.jpg",
+        "totalPrice": 120.0
+      }
+    ],
+    "totalAmount": 300.0,
+    "discountAmount": 10.0,
+    "deliveryCharge": 0.0,
+    "finalAmount": 290.0,
+    "orderDate": "2025-10-30 09:20",
+    "deliveryTime": "2025-10-30 09:50",
+    "estimatedDeliveryMinutes": 30,
+    "paymentMethod": "UPI",
+    "paymentStatus": "Paid",
+    "orderStatus": "Preparing",
+    "deliveryAddress": "5, Blue Orchid Society, Baner, Pune",
+    "deliveryPersonName": null,
+    "deliveryPersonPhone": null,
+    "specialInstructions": "Add coconut chutney",
+    "rating": null,
+    "feedback": null
+  }
+]
