@@ -71,13 +71,6 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
             rv_addtocart.layoutManager = LinearLayoutManager(this@AddToCartActivity)
             addToCartAdapter = AddToCartAdapter(this@AddToCartActivity, cartFood)
             rv_addtocart.adapter = addToCartAdapter
-
-            if(cartFood.isEmpty()) {
-                ll_place_order.visibility = android.view.View.GONE
-                ll_price_details.visibility = android.view.View.GONE
-                rv_addtocart.visibility = android.view.View.GONE
-                tv_empty_cart.visibility = android.view.View.VISIBLE
-            }
             setData()
         }
 
@@ -112,6 +105,12 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
                 text = "₹${String.format("%.2f", totalPrice+deliveryCharge)}"
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
+        }
+        if(cartFood.isEmpty()) {
+            ll_place_order.visibility = android.view.View.GONE
+            ll_price_details.visibility = android.view.View.GONE
+            rv_addtocart.visibility = android.view.View.GONE
+            tv_empty_cart.visibility = android.view.View.VISIBLE
         }
 
     }

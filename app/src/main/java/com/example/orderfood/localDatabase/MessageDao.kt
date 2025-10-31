@@ -22,7 +22,7 @@ interface MessageDao {
     @Query("DELETE FROM cart_items WHERE id = :itemId")
     suspend fun deleteById(itemId: Int)
 
-//    @Query("SELECT * FROM cart_items WHERE id = :itemId")
-//    suspend infix fun searchById(itemId: Int)
+    @Query("SELECT * FROM cart_items WHERE id = :itemId")
+    suspend fun searchById(itemId: Int): CartItems
 
 }

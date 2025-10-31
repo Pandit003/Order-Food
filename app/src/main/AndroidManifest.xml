@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderFood"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.BuyItemsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LocationActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.ProfileActivity"
             android:exported="false" />

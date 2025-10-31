@@ -32,12 +32,16 @@
                 android:padding="5dp">
 
                 <LinearLayout
-                    android:id="@+id/location_layout"
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:paddingEnd="10dp"
                     android:layout_weight="1">
-
+                <LinearLayout
+                    android:id="@+id/location_layout"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                     <!-- District -->
                     <TextView
                         android:id="@+id/tv_district"
@@ -46,7 +50,7 @@
                         android:drawableStart="@drawable/location"
                         android:drawableTint="@color/primaryColor"
                         android:drawablePadding="5dp"
-                        android:text="Jharsuguda"
+                        android:text="chhattisgarh"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#000000"/>
@@ -58,10 +62,13 @@
                         android:layout_height="wrap_content"
                         android:text="Buromal, Odisha, India"
                         android:textSize="14sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:paddingStart="5dp"
                         android:textColor="#666666"/>
                 </LinearLayout>
-
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
@@ -131,13 +138,37 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_catOption"
             android:layout_width="match_parent"
+            android:visibility="visible"
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Allfood"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="visible"
             android:paddingHorizontal="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/something_went_wrong"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please try again."/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/primaryColor"
+                android:text="Try agin"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.example.orderfood.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +17,9 @@ import android.view.animation.AnimationUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +33,8 @@ import com.example.orderfood.interfaces.OnSelectFoodClickListener
 import com.example.orderfood.localDatabase.AppDatabase
 import com.example.orderfood.model.Category
 import com.example.orderfood.model.FoodItem
+import com.example.orderfood.utils.NetworkUtils
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodClickListener {
@@ -41,12 +46,14 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
     private lateinit var iv_addToCart: ImageView
     private lateinit var iv_profile: ImageView
     private lateinit var badgeTextView: TextView
+    private lateinit var tv_address: TextView
+    private lateinit var location_layout: LinearLayout
     private val hintHandler = Handler(Looper.getMainLooper())
     private lateinit var foodCategoriesAdapter: FoodCategoriesAdapter
     private lateinit var searchFoodAdapter: SearchFoodAdapter
     var foodItems : List<FoodItem> = listOf()
     var cartCount = 0
-
+    val textFlow = MutableStateFlow("")
     private val hintRunnable = object : Runnable {
         override fun run() {
             val animOut = AnimationUtils.loadAnimation(this@MainActivity, R.anim.hint_up)
@@ -79,12 +86,28 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         etSearch = findViewById(R.id.et_search)
         val iv_search : ImageView = findViewById(R.id.iv_search)
         val iv_back : ImageView = findViewById(R.id.iv_back)
         iv_addToCart = findViewById(R.id.iv_addToCart)
         iv_profile = findViewById(R.id.iv_profile)
         badgeTextView = findViewById(R.id.badge_text_view)
+        tv_address = findViewById(R.id.tv_address)
+        location_layout = findViewById(R.id.location_layout)
+        rv_catOption = findViewById(R.id.rv_catOption)
+        rv_allfood = findViewById(R.id.rv_Allfood)
+
+        lifecycleScope.launch {
+            textFlow.collect { newValue ->
+                tv_address.text = newValue
+            }
+        }
+        if(!NetworkUtils.checkConnectionOrShowError(this)){
+//            rv_allfood.visibility = View.GONE
+//            rv_catOption.visibility = View.GONE
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
+        }
         iv_search.isVisible = true
         iv_back.isVisible = false
         etSearch.isFocusable = false
@@ -100,6 +123,10 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+        location_layout.setOnClickListener{
+            val intent = Intent(this, LocationActivity::class.java)
+            startActivity(intent)
+        }
         hintHandler.post(hintRunnable)
 
         val categories = listOf(
@@ -110,12 +137,10 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
             Category("", "Roti", R.drawable.roti_1)
         )
         foodItems = loadFoodItemsFromAssets(this)
-        rv_catOption = findViewById(R.id.rv_catOption)
         rv_catOption.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
         foodCategoriesAdapter = FoodCategoriesAdapter(this,categories)  // or your data list
         rv_catOption.adapter = foodCategoriesAdapter
 
-        rv_allfood = findViewById(R.id.rv_Allfood)
         rv_allfood.layoutManager = LinearLayoutManager(this)
         searchFoodAdapter  = SearchFoodAdapter(this,foodItems)  // or your data list
         rv_allfood.adapter = searchFoodAdapter
@@ -162,6 +187,10 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
     }
     override fun onResume() {
         super.onResume()
+        val sharedPreferences = getSharedPreferences("NameAndAddress", MODE_PRIVATE)
+        var area = sharedPreferences.getString("area", "")
+        var house = sharedPreferences.getString("house_number", "")
+        textFlow.value = "$house, $area"
         getCartCount()
     }
     /*override fun onBackPressed() {
