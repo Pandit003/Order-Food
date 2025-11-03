@@ -11,6 +11,7 @@
     "isAvailable": true,
     "rating": 4.5,
     "totalRatings": 250,
+    "quantity": 1,
     "tags": ["veg", "biryani", "rice", "spicy", "indian"],
     "addons": [
       { "id": "a1", "name": "Raita", "price": 20.0 },
@@ -29,6 +30,7 @@
     "isAvailable": true,
     "rating": 4.3,
     "totalRatings": 180,
+    "quantity": 1,
     "tags": ["veg", "paneer", "curry", "north indian"],
     "addons": [
       { "id": "a3", "name": "Extra Paneer", "price": 30.0 },
@@ -47,6 +49,7 @@
     "isAvailable": true,
     "rating": 4.6,
     "totalRatings": 200,
+    "quantity": 1,
     "tags": ["veg", "paneer", "spicy", "indian"],
     "addons": [
       { "id": "a5", "name": "Tandoori Roti", "price": 20.0 },
@@ -65,6 +68,7 @@
     "isAvailable": true,
     "rating": 4.2,
     "totalRatings": 150,
+    "quantity": 1,
     "tags": ["veg", "bread", "indian", "paratha"],
     "addons": [{ "id": "a7", "name": "Butter", "price": 10.0 }]
   },
@@ -80,6 +84,7 @@
     "isAvailable": true,
     "rating": 4.4,
     "totalRatings": 130,
+    "quantity": 1,
     "tags": ["veg", "rice", "indian", "simple"],
     "addons": [
       { "id": "a8", "name": "Dal Tadka", "price": 60.0 },
@@ -98,6 +103,7 @@
     "isAvailable": true,
     "rating": 4.7,
     "totalRatings": 300,
+    "quantity": 1,
     "tags": ["non-veg", "chicken", "roll", "snack", "street food"],
     "addons": [
       { "id": "a10", "name": "Extra Mayo", "price": 10.0 },

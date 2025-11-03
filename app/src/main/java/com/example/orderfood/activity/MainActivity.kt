@@ -2,7 +2,6 @@ package com.example.orderfood.activity
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -155,7 +154,7 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
     fun getCartCount() {
         lifecycleScope.launch {
             val db = AppDatabase.getDatabase(this@MainActivity)
-            val cartFood = db.messageDao().getAllMessages().toMutableList()
+            val cartFood = db.messageDao().getAllCartItems().toMutableList()
             cartCount = cartFood.size
             if (cartCount > 0) {
                 badgeTextView.text = cartCount.toString()
@@ -180,7 +179,7 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
     }
     override fun onSelectedClicked(pos: Int) {
         val sheet = FoodDetailBottomSheet(
-            foodItems , pos
+            foodItems[pos]
         )
         getCartCount()
         sheet.show(supportFragmentManager, "FoodDetailBottomSheet")

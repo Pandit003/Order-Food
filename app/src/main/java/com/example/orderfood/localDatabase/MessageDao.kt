@@ -8,13 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface MessageDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMessage(message: CartItems)
+    suspend fun insertIntoCart(message: CartItems)
 
     @Query("SELECT * FROM cart_items ORDER BY id DESC")
-    suspend fun getAllMessages(): List<CartItems>
-
-    @Query("SELECT * FROM cart_items ORDER BY id DESC")
-    fun getAllMessagesFlow(): Flow<List<CartItems>>
+    suspend fun getAllCartItems(): List<CartItems>
 
     @Query("UPDATE cart_items SET quantity = :newQuantity WHERE id = :itemId")
     fun updateQuantity(itemId: Int, newQuantity: Int)

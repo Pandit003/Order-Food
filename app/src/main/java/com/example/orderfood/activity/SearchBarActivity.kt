@@ -122,7 +122,7 @@ class SearchBarActivity : AppCompatActivity(), OnSelectFoodClickListener {
 
     override fun onSelectedClicked(pos: Int) {
         val sheet = FoodDetailBottomSheet(
-            foodItems , pos
+            foodItems[pos]
         )
         sheet.show(supportFragmentManager, "FoodDetailBottomSheet")
     }

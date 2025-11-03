@@ -10,12 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.orderfood.R
 import com.example.orderfood.activity.AddToCartActivity
 import com.example.orderfood.activity.BuyItemsActivity
-import com.example.orderfood.adapter.AddToCartAdapter
 import com.example.orderfood.localDatabase.AppDatabase
 import com.example.orderfood.model.CartItems
 import com.example.orderfood.model.FoodItem
@@ -23,7 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
 class FoodDetailBottomSheet(
-    var foodItems : List<FoodItem>,val pos : Int
+    var foodItems : FoodItem
 ) : BottomSheetDialogFragment() {
     private lateinit var tv_food_name: TextView
     private lateinit var tv_food_desc: TextView
@@ -48,15 +46,15 @@ class FoodDetailBottomSheet(
         iv_close = view.findViewById<ImageView>(R.id.iv_close)
         btn_add_to_cart = view.findViewById<Button>(R.id.btn_add_to_cart)
         btn_buy = view.findViewById<Button>(R.id.btn_buy)
-        tv_food_name.text = foodItems.get(pos).name
-        tv_food_desc.text = foodItems.get(pos).description
-        Glide.with(requireContext()).load(foodItems.get(pos).imageUrl).into(iv_food)
-        tv_price.text = "Only ₹ "+foodItems.get(pos).price.toString()
+        tv_food_name.text = foodItems.name
+        tv_food_desc.text = foodItems.description
+        Glide.with(requireContext()).load(foodItems.imageUrl).into(iv_food)
+        tv_price.text = "Only ₹ "+foodItems.price.toString()
         iv_close.setOnClickListener { dismiss() }
         val db = AppDatabase.getDatabase(requireContext())
         var cartFood: CartItems? = null
         lifecycleScope.launch {
-            cartFood = db.messageDao().searchById(foodItems.get(pos).id)
+            cartFood = db.messageDao().searchById(foodItems.id)
             if (cartFood != null) {
                 btn_add_to_cart.text = "Go to Cart"
             }
@@ -64,7 +62,7 @@ class FoodDetailBottomSheet(
         btn_add_to_cart.setOnClickListener {
             if (cartFood == null) {
                 lifecycleScope.launch {
-                    db.messageDao().insertMessage(foodItems[pos].toCartItem())
+                    db.messageDao().insertIntoCart(foodItems.toCartItem())
                 }
                 Toast.makeText(this.requireContext(), "Item added to cart", Toast.LENGTH_SHORT)
                     .show()
@@ -75,7 +73,8 @@ class FoodDetailBottomSheet(
             dismiss()
         }
         btn_buy.setOnClickListener {
-            val intent = Intent(requireContext(), BuyItemsActivity::class.java)
+            val intent = Intent(requireContext(), BuyItemsActivity()::class.java)
+            intent.putParcelableArrayListExtra("foodList", arrayListOf(foodItems))
             startActivity(intent)
         }
     }

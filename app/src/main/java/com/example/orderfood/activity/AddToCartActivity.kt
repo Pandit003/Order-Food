@@ -1,8 +1,10 @@
 package com.example.orderfood.activity
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +21,7 @@ import com.example.orderfood.adapter.AddToCartAdapter
 import com.example.orderfood.interfaces.OnAddCartItemListener
 import com.example.orderfood.interfaces.OnDeleteCartItemListener
 import com.example.orderfood.model.CartItems
+import com.example.orderfood.model.FoodItem
 import kotlinx.coroutines.launch
 
 class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCartItemListener {
@@ -35,7 +38,8 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
     private lateinit var tv_empty_cart: TextView
     private lateinit var ll_place_order: LinearLayout
     private lateinit var ll_price_details: LinearLayout
-    var cartFood: MutableList<CartItems> = mutableListOf()
+    private lateinit var btn_buy: Button
+    var cartFood: List<CartItems> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,7 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
         ll_place_order = findViewById(R.id.ll_place_order)
         ll_price_details = findViewById(R.id.ll_price_details)
         tv_empty_cart = findViewById(R.id.tv_empty_cart)
+        btn_buy = findViewById(R.id.btn_buy)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -65,13 +70,27 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
         supportActionBar?.title = "Cart Items"
         val db = AppDatabase.getDatabase(this)
         lifecycleScope.launch {
-            cartFood = db.messageDao().getAllMessages().toMutableList()
+            cartFood = db.messageDao().getAllCartItems().toList()
 
             rv_addtocart = findViewById(R.id.rv_addtocart)
             rv_addtocart.layoutManager = LinearLayoutManager(this@AddToCartActivity)
             addToCartAdapter = AddToCartAdapter(this@AddToCartActivity, cartFood)
             rv_addtocart.adapter = addToCartAdapter
             setData()
+        }
+        btn_buy.setOnClickListener {
+            var foodItemlist : MutableList<FoodItem> = mutableListOf()
+            if (cartFood.isEmpty()) {
+                return@setOnClickListener
+            }
+            else{
+                for (cartfood in cartFood){
+                    foodItemlist.add(cartfood.toFoodItems())
+                }
+            }
+            var intent = Intent(this, BuyItemsActivity::class.java)
+            intent.putParcelableArrayListExtra("foodList", ArrayList(foodItemlist))
+            startActivity(intent)
         }
 
     }
@@ -98,7 +117,10 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
         tv_delivery_charges.text = "₹${"%.2f".format(deliveryCharge)}"
         tv_final_price.text = "₹${"%.2f".format(totalPayable)}"
         tv_total_amount.text = "₹${"%.2f".format(totalPayable)}"
-        tv_savings.text = "You will save ₹${" %.2f".format(totalDiscount)} on this order"
+        if(totalDiscount > 0) {
+            tv_savings.visibility = android.view.View.VISIBLE
+            tv_savings.text = "You will save ₹${" %.2f".format(totalDiscount)} on this order"
+        }
         if(totalPayable != totalPrice+deliveryCharge){
             tv_amount.visibility = android.view.View.VISIBLE
             tv_amount.apply {
@@ -128,7 +150,7 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
     override fun onCartItemClicked() {
         lifecycleScope.launch {
             val db = AppDatabase.getDatabase(this@AddToCartActivity)
-            cartFood = db.messageDao().getAllMessages().toMutableList()
+            cartFood = db.messageDao().getAllCartItems().toList()
             setData()
             addToCartAdapter.updateCartItems(cartFood)
         }
@@ -136,5 +158,23 @@ class AddToCartActivity : AppCompatActivity(),OnAddCartItemListener, OnDeleteCar
 
     override fun onDeleteCartItemClicked(id: Int) {
         TODO("Not yet implemented")
+    }
+    private fun CartItems.toFoodItems(): FoodItem {
+        return FoodItem(
+            id = this.id,
+            name = this.name,
+            description = this.description,
+            imageUrl = this.imageUrl,
+            categoryId = this.categoryId,
+            price = this.price,
+            discountPercent = this.discountPercent,
+            finalPrice = this.finalPrice,
+            isAvailable = this.isAvailable,
+            rating = this.rating,
+            totalRatings = this.totalRatings,
+            quantity = 1,
+            tags = emptyList(),
+            addons = emptyList()
+        )
     }
 }

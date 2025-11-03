@@ -68,6 +68,11 @@ class LocationActivity : AppCompatActivity() {
         var name = sharedPreferences.getString("user_name", "")
         var phone = sharedPreferences.getString("phone_number", "")
         var landmark = sharedPreferences.getString("landmark", "")
+//        if(name?.isEmpty() || phone?.isEmpty()) {
+            val personalSharedPreferences = getSharedPreferences("Personal_Details", MODE_PRIVATE)
+            var Profilename = personalSharedPreferences.getString("name", "")
+            var Profilephone = personalSharedPreferences.getString("phone_number", "")
+//        }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         et_name = findViewById(R.id.et_name)
         et_phone_no = findViewById(R.id.et_phone_no)
@@ -77,8 +82,8 @@ class LocationActivity : AppCompatActivity() {
         btn_save = findViewById(R.id.btn_save)
         fl_getLocation = findViewById(R.id.fl_getLocation)
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-        et_name.setText(name)
-        et_phone_no.setText(phone)
+        et_name.setText(if(name?.isEmpty() == true) Profilename else name)
+        et_phone_no.setText(if(phone?.isEmpty() == true) Profilephone else phone)
         et_area.setText(area)
         et_landmark.setText(landmark)
         et_house_no.setText(house)
