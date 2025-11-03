@@ -18,6 +18,18 @@
         android:theme="@style/Theme.OrderFood"
         tools:targetApi="31">
         <activity
+            android:name=".activity.OtpVerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.BuyItemsActivity"
             android:exported="false" />
         <activity
@@ -32,11 +44,11 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".activity.SearchBarActivity"
