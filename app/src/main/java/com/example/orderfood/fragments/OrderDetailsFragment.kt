@@ -1,5 +1,6 @@
 package com.example.orderfood.fragments
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,7 @@ import com.example.orderfood.model.OrderDetails
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class OrderDetailsFragment : Fragment() , OnOrderItemListener{
+class OrderDetailsFragment : Fragment() {
     private lateinit var tv_order_status : TextView
     private lateinit var tv_resturant_name : TextView
     private lateinit var tv_resturant_address : TextView
@@ -34,7 +35,8 @@ class OrderDetailsFragment : Fragment() , OnOrderItemListener{
     private lateinit var tv_payment_date : TextView
     private lateinit var tv_delivery_address : TextView
     private lateinit var rv_item : RecyclerView
-    var orderData : OrderDetails? = null
+    private lateinit var progress: ProgressDialog
+    var order : OrderDetails? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,38 +56,38 @@ class OrderDetailsFragment : Fragment() , OnOrderItemListener{
         tv_payment_date = view.findViewById<TextView>(R.id.tv_payment_date)
         tv_delivery_address = view.findViewById<TextView>(R.id.tv_delivery_address)
         rv_item = view.findViewById<RecyclerView>(R.id.rv_item)
-        val json = requireContext().assets.open("order_list.json").bufferedReader().use { it.readText() }
-        val orders: List<OrderDetails> = Gson().fromJson(json, object : TypeToken<List<OrderDetails>>() {}.type)
-        var orderId = arguments?.getString("order_id") ?: 0
-        for (order in orders){
-            if (order.orderId == orderId){
-                tv_order_status.text = order.orderStatus
-                tv_resturant_name.text = order.restaurantName
-                tv_resturant_address.text = order.restaurantAddress
-                tv_order_id.text = "Order Id : ${order.orderId}"
-                tv_total_price.text = "₹"+order.totalAmount.toString()
-                tv_discount_price.text = "₹"+order.discountAmount.toString()
-                tv_delivery_charges.text = "₹"+order.deliveryCharge.toString()
-                tv_final_price.text = "₹"+order.finalAmount.toString()
-                tv_your_name.text = order.deliveryPersonName
-                tv_your_number.text = order.deliveryPersonPhone
-                tv_payment_method.text = "Paid via: ${order.paymentMethod}"
-                tv_payment_date.text = order.orderDate
-                tv_delivery_address.text = order.deliveryAddress
-
-                rv_item.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
-                rv_item.adapter = OrderItemAdapter(order.items)
-
-            }
-        }
+        order = arguments?.getParcelable("order_details")
+        progress = ProgressDialog(view.context)
+        progress.setCancelable(false)
+        progress.setMessage("Loading...")
+        progress.show()
+        setData()
         return view
     }
+
+    private fun setData() {
+        tv_order_status.text = order!!.orderStatus
+        tv_resturant_name.text = order!!.restaurantName
+        tv_resturant_address.text = order!!.restaurantAddress
+        tv_order_id.text = "Order Id : ${order!!.orderId}"
+        tv_total_price.text = "₹"+order!!.totalAmount.toString()
+        tv_discount_price.text = "₹"+order!!.discountAmount.toString()
+        tv_delivery_charges.text = "₹"+order!!.deliveryCharge.toString()
+        tv_final_price.text = "₹"+order!!.finalAmount.toString()
+        tv_your_name.text = order!!.deliveryPersonName
+        tv_your_number.text = order!!.deliveryPersonPhone
+        tv_payment_method.text = "Paid via: ${order!!.paymentMethod}"
+        tv_payment_date.text = order!!.orderDate
+        tv_delivery_address.text = order!!.deliveryAddress
+
+        rv_item.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        rv_item.adapter = OrderItemAdapter(order!!.items)
+        progress.dismiss()
+    }
+
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar!!.setTitle("Order Details")
     }
 
-    override fun onOrderItemClicked(order_id: String) {
-
-    }
 }

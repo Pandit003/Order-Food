@@ -15,7 +15,7 @@
             android:id="@+id/tv_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter OTP"
+            android:text="Set up PIN"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp" />
@@ -41,11 +41,11 @@
             android:id="@+id/btn_verify"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:text="Verify"
-            android:background="@color/primaryColor"
-            android:layout_marginTop="20dp"
+            android:text="Continue"
             android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             app:cornerRadius="12dp"
             app:backgroundTint="@color/primaryColor"
-            android:textColor="@android:color/white" />
+            android:layout_marginTop="40dp" />
 </LinearLayout>

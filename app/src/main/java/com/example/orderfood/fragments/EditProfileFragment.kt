@@ -39,7 +39,7 @@ class EditProfileFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("Personal_Details", MODE_PRIVATE)
         var name = sharedPreferences.getString("name", "")
         var phone = sharedPreferences.getString("phone_number", "")
-        var gender = sharedPreferences.getString("gender", "")
+        var gender = sharedPreferences.getString("gender", "boy")
         if(gender.equals("boy")){
             rl_boy.visibility = View.VISIBLE
             rl_girl.visibility = View.GONE
@@ -60,7 +60,10 @@ class EditProfileFragment : Fragment() {
                     et_phone_no.error = "Please enter phone number"
                     et_phone_no.requestFocus()
                 }
-
+                et_phone_no.text.length != 10 ->{
+                    et_phone_no.error = "Please enter valid phone number"
+                    et_phone_no.requestFocus()
+                }
                 else -> {
                     val sharedPreferences =
                         requireContext().getSharedPreferences("Personal_Details", MODE_PRIVATE)

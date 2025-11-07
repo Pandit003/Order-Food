@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvPayInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan &amp; Pay to Place Your Order"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:padding="10dp" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+        <ImageView
+            android:id="@+id/ivQrCode"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/qr_code" />
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:gravity="center_vertical">
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Payment time left\:"
+        android:textColor="#FF0000"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02:00"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:textColor="#FF0000"
+        android:textSize="16sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_weight="1"
+        android:layout_marginRight="5dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/search_bar_bg"
+        android:backgroundTint="#FF5722"
+        android:paddingHorizontal="25dp"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPaid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I've Paid"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/search_bar_bg"
+        android:backgroundTint="#4CAF50"
+        android:paddingHorizontal="25dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -189,7 +189,9 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
         val sharedPreferences = getSharedPreferences("NameAndAddress", MODE_PRIVATE)
         var area = sharedPreferences.getString("area", "")
         var house = sharedPreferences.getString("house_number", "")
-        textFlow.value = "$house, $area"
+        if(house!!.isNotBlank()&& area!!.isNotEmpty()) {
+            textFlow.value = "$house, $area"
+        }
         getCartCount()
     }
     /*override fun onBackPressed() {

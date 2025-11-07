@@ -104,6 +104,10 @@ class LocationActivity : AppCompatActivity() {
                     et_phone_no.error = "Please enter phone number"
                     et_phone_no.requestFocus()
                 }
+                phoneNo.length != 10-> {
+                    et_phone_no.error = "Please enter valid phone number"
+                    et_phone_no.requestFocus()
+                }
                 houseNo.isEmpty() -> {
                     et_house_no.error = "Please enter house number"
                     et_house_no.requestFocus()
@@ -144,6 +148,7 @@ class LocationActivity : AppCompatActivity() {
             interval = 10000 // Update interval in milliseconds
             fastestInterval = 5000 // Fastest interval for updates
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            numUpdates = 1
         }
 
         locationCallback = object : LocationCallback() {
@@ -158,14 +163,20 @@ class LocationActivity : AppCompatActivity() {
                         val parts = fullAddress?.split(",")?.map { it.trim() } ?: emptyList()
                         val houseNo = parts.getOrNull(0) ?: ""
                         val area = listOfNotNull(parts.getOrNull(1), parts.getOrNull(2)).joinToString(", ")
-                        /*if(!address?.adminArea.equals("Chhattisgarh",ignoreCase = true) && !address?.locality.equals("Raigarh",ignoreCase = true)){
-                            Toast.makeText(this@LocationActivity, "Service not available outside Raigarh, Chhattisgarh", Toast.LENGTH_LONG).show()
-                        }else{
-                            Toast.makeText(this@LocationActivity, "Unable to fetch location details", Toast.LENGTH_SHORT).show()
-                        }*/
-                        et_house_no.setText(houseNo)
-                        et_area.setText(area)
-                        fl_getLocation.isEnabled = true
+                        if (address?.adminArea.equals("Chhattisgarh", ignoreCase = true)
+                            && address?.locality.equals("Raigarh", ignoreCase = true)) {
+
+                            et_house_no.setText(houseNo)
+                            et_area.setText(area)
+                        } else {
+                            Toast.makeText(
+                                this@LocationActivity,
+                                "Service not available outside Raigarh, Chhattisgarh",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            fl_getLocation.isEnabled = true
+
+                        }
                     }catch (e : IOException){
                         Toast.makeText(this@LocationActivity, "Unable to fetch location details", Toast.LENGTH_SHORT).show()
                         Log.d("TAG", "onLocationResult: "+e)

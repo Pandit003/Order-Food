@@ -30,6 +30,7 @@ class FoodDetailBottomSheet(
     private lateinit var iv_close: ImageView
     private lateinit var btn_add_to_cart: Button
     private lateinit var btn_buy: Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

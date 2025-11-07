@@ -1,5 +1,7 @@
 package com.example.orderfood.interfaces
 
+import com.example.orderfood.model.OrderDetails
+
 interface OnFoodItemClickListener {
     fun onFoodItemClicked(name: String)
 }
@@ -16,6 +18,6 @@ interface OnDeleteCartItemListener {
     fun onDeleteCartItemClicked(id: Int)
 }
 interface OnOrderItemListener {
-    fun onOrderItemClicked(id: String)
+    fun onOrderItemClicked(id: String,orderData : OrderDetails)
 }
 
