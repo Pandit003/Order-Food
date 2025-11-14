@@ -11,29 +11,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.example.orderfood.R
+import com.example.orderfood.model.personalDetail
 
-class AdminActivity : AppCompatActivity() {
-    private lateinit var etSearch: EditText
+class AdminUserInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_admin)
+        setContentView(R.layout.activity_admin_user_info)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        etSearch = findViewById(R.id.et_search)
-        val iv_search : ImageView = findViewById(R.id.iv_search)
-        val iv_back : ImageView = findViewById(R.id.iv_back)
-        iv_search.isVisible = true
-        iv_back.isVisible = false
-        etSearch.isFocusable = false
-        etSearch.setOnClickListener{
-            val intent = Intent(this, SearchPhoneNoActivity::class.java)
-            startActivity(intent)
-        }
+        val user = intent.getParcelableExtra<personalDetail>("user_details")
     }
 }

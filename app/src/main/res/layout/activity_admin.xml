@@ -1,10 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AdminActivity">
+    android:fillViewport="true"
+    android:id="@+id/main"
+    android:padding="10dp"
+    android:background="#F9F9F9">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:showDividers="none">
+        <FrameLayout
+            android:id="@+id/search_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/search_bar_bg"
+            android:elevation="8dp">
+
+            <include layout="@layout/view_custom_search_view" />
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/ll_orderData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                    <LinearLayout
+                        android:id="@+id/ll_pending_order"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:orientation="vertical"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/search_bar_bg"
+                        android:elevation="8dp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_pending_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textSize="36sp"
+                            android:textStyle="bold"
+                            android:textColor="#FF7043" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending"
+                            android:textColor="#555"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_processing_order"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:orientation="vertical"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/search_bar_bg"
+                        android:elevation="8dp"
+                        android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tv_pending_today"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4"
+                                android:textSize="36sp"
+                                android:textStyle="bold"
+                                android:textColor="#FFA726" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Processing"
+                                android:textColor="#555"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:id="@+id/ll_complete_order"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                android:layout_marginVertical="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_bar_bg"
+                android:elevation="8dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:textColor="#43A047" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Completed"
+                    android:textColor="#555"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/rv_order_data"/>
+    </LinearLayout>
+</ScrollView>

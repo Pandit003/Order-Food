@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -72,6 +73,7 @@ class ProfileFragment : Fragment() {
         }
         return view
     }
+
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar!!.setTitle("Profile")

@@ -18,12 +18,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.orderfood.R
+import com.example.orderfood.model.personalDetail
 import com.example.orderfood.utils.NetworkUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.IOException
 import java.util.Locale
 
@@ -38,6 +41,8 @@ class LocationActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     private lateinit var locationCallback : LocationCallback
     val LOCATION_PERMISSION_REQUEST_CODE = 1
+    var Profilephone = ""
+    lateinit var db : FirebaseFirestore
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -61,6 +66,7 @@ class LocationActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        db = FirebaseFirestore.getInstance()
         checkLocationPermission()
         val sharedPreferences = getSharedPreferences("NameAndAddress", MODE_PRIVATE)
         var area = sharedPreferences.getString("area", "")
@@ -71,7 +77,7 @@ class LocationActivity : AppCompatActivity() {
 //        if(name?.isEmpty() || phone?.isEmpty()) {
             val personalSharedPreferences = getSharedPreferences("Personal_Details", MODE_PRIVATE)
             var Profilename = personalSharedPreferences.getString("name", "")
-            var Profilephone = personalSharedPreferences.getString("phone_number", "")
+            Profilephone = personalSharedPreferences.getString("phone_number", "").toString()
 //        }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         et_name = findViewById(R.id.et_name)
@@ -87,6 +93,7 @@ class LocationActivity : AppCompatActivity() {
         et_area.setText(area)
         et_landmark.setText(landmark)
         et_house_no.setText(house)
+        getUserData()
         btn_save.setOnClickListener {
             // Handle save button click
             btn_save.isEnabled = false
@@ -125,11 +132,19 @@ class LocationActivity : AppCompatActivity() {
                     editor.putString("landmark", et_landmark.text.toString())
                     editor.putString("house_number", et_house_no.text.toString())
                     editor.apply()
-                    Toast.makeText(this,"Address Saved",Toast.LENGTH_SHORT).show()
+
+                    saveLocation(personalDetail(
+                        et_name.text.toString() ,
+                        et_phone_no.text.toString() ,
+                        et_area.text.toString() ,
+                        et_landmark.text.toString() ,
+                        et_house_no.text.toString()
+                    ))
                     onBackPressed()
                 }
             }
         }
+
         fl_getLocation.setOnClickListener{
             if (NetworkUtils.checkConnectionOrShowError(this)) {
                 fl_getLocation.isEnabled = false
@@ -142,6 +157,36 @@ class LocationActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = "Edit Address"
+    }
+    fun getUserData() {
+        db.collection("personalDetails")
+            .whereEqualTo("phone", Profilephone)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    for (document in documents) {
+                        et_name.setText(document.getString("name") ?: "")
+                        et_phone_no.setText(document.getString("phone") ?: "")
+                        et_area.setText(document.getString("area") ?: "")
+                        et_landmark.setText(document.getString("landmark") ?: "")
+                        et_house_no.setText(document.getString("house_no") ?: "")
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Error fetching data", exception)
+            }
+    }
+
+    fun saveLocation(personalDetail: personalDetail) {
+        db.collection("personalDetails").document(et_phone_no.text.toString())
+            .set(personalDetail)
+            .addOnSuccessListener {
+                Toast.makeText(this,"Address Saved",Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to save address.", Toast.LENGTH_SHORT).show()
+            }
     }
     fun getLocation(){
         val locationRequest = LocationRequest.create().apply {

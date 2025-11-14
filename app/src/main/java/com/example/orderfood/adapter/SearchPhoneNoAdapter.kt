@@ -12,61 +12,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.orderfood.R
 import com.example.orderfood.interfaces.OnFoodItemClickListener
+import com.example.orderfood.interfaces.OnPersonSelectedListener
 import com.example.orderfood.interfaces.OnSelectFoodClickListener
 import com.example.orderfood.model.FoodItem
+import com.example.orderfood.model.personalDetail
 
-class SearchFoodAdapter(private val listener: OnSelectFoodClickListener, private var allItems: List<FoodItem>) : RecyclerView.Adapter<SearchFoodAdapter.ViewHolder>() {
-    private var filteredItems = allItems.toMutableList()
+class SearchPhoneNoAdapter(private val listener: OnPersonSelectedListener, private var userlist: List<personalDetail>) : RecyclerView.Adapter<SearchPhoneNoAdapter.ViewHolder>() {
     private val context = listener as Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_food_list,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_phone_details,parent,false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = filteredItems[position]
+        val item = userlist[position]
         holder.tv_name.text = item.name
-        holder.tv_rating.text = item.rating.toString()
-        holder.tv_rated_by.text = "By "+item.totalRatings.toString()+"+"
-        holder.tv_desc.text = item.description
-        holder.tv_price.text = "Only ₹ "+item.price.toString()
-        Glide.with(context)
-            .load(item.imageUrl)
-            .placeholder(R.drawable.image_placeholder)
-            .error(R.drawable.image_placeholder)
-            .into(holder.iv_food_img)
-        holder.iv_food_img.setOnClickListener {
-            listener.onSelectedClicked(position)
+        holder.tv_phone.text = item.phone
+        holder.ll_user_info.setOnClickListener {
+            listener.onPersonSelectedClicked(item)
         }
     }
 
     override fun getItemCount(): Int {
-        return filteredItems.size
+        return userlist.size
     }
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
         var tv_name : TextView
-        var tv_desc : TextView
-        var tv_rating : TextView
-        var tv_rated_by : TextView
-        var tv_price : TextView
-        var iv_food_img : ImageView
-        var red_line : View
+        var tv_phone : TextView
+        var ll_user_info : LinearLayout
         init {
             tv_name = view.findViewById(R.id.tv_name)
-            tv_desc = view.findViewById(R.id.tv_desc)
-            tv_rating = view.findViewById(R.id.tv_rating)
-            tv_rated_by = view.findViewById(R.id.tv_rated_by)
-            tv_price = view.findViewById(R.id.tv_price)
-            iv_food_img = view.findViewById(R.id.iv_food_img)
-            red_line = view.findViewById(R.id.red_line)
+            tv_phone = view.findViewById(R.id.tv_phone)
+            ll_user_info = view.findViewById(R.id.ll_user_info)
         }
-    }
-    fun filter(query: String) {
-        filteredItems = if (query.isEmpty()) {
-            allItems.toMutableList()
-        } else {
-            allItems.filter { it.name.contains(query, ignoreCase = true) }.toMutableList()
-        }
-        notifyDataSetChanged()
     }
 }

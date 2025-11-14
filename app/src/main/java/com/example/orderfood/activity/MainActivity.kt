@@ -23,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orderfood.BuildConfig
 import com.example.orderfood.widgets.FoodDetailBottomSheet
 import com.example.orderfood.R
 import com.example.orderfood.adapter.FoodCategoriesAdapter
@@ -84,6 +85,11 @@ class MainActivity : AppCompatActivity() , OnFoodItemClickListener,OnSelectFoodC
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        if (BuildConfig.FLAVOR.equals("admin", ignoreCase = true)) {
+            val intent = Intent(this, AdminActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         etSearch = findViewById(R.id.et_search)

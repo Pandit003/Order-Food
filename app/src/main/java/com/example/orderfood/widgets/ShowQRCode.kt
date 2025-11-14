@@ -30,6 +30,7 @@ class ShowQRCode(
         return inflater.inflate(R.layout.layout_show_qrcode, container, false)
     }
     var onPaymentDone: (() -> Unit)? = null
+    var onPaymentcancel: (() -> Unit)? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imageView = view.findViewById<ImageView>(R.id.ivQrCode)
@@ -83,6 +84,7 @@ class ShowQRCode(
             }
         }.start()
         cancelBtn.setOnClickListener {
+            onPaymentcancel?.invoke()
             countDownTimer?.cancel()
             timerText.text = "Cancelled"
             timerText.setTextColor(Color.GRAY)

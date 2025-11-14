@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.view.isVisible
@@ -49,6 +50,13 @@ class EditProfileFragment : Fragment() {
         }
         et_name.setText(name)
         et_phone_no.setText(phone)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    openProfileFragment()
+                }
+            })
         btn_save.setOnClickListener {
             when {
                 et_name.text.isEmpty() -> {
@@ -98,6 +106,13 @@ class EditProfileFragment : Fragment() {
         }
 
         return view
+    }
+    private fun openProfileFragment() {
+        val profileFragment = ProfileFragment()
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.container_body, profileFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
     override fun onResume() {
         super.onResume()

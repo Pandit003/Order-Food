@@ -28,7 +28,7 @@ class OrderListAdapter(private val context: Context,private val listener: OnOrde
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.tv_food_name.text = item.items[0].name
-        holder.tv_total_price.text = item.totalAmount.toString()
+        holder.tv_total_price.text = item.finalAmount.toString()
         holder.tv_order_status.text = item.orderStatus
         Glide.with(context)
             .load(item.items.get(0).imageUrl)

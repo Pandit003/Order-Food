@@ -15,10 +15,11 @@ import com.bumptech.glide.Glide
 import com.example.orderfood.R
 import com.example.orderfood.interfaces.OnFoodItemClickListener
 import com.example.orderfood.interfaces.OnOrderItemListener
+import com.example.orderfood.interfaces.OnOrderRequestListener
 import com.example.orderfood.model.Category
 import com.example.orderfood.model.OrderDetails
 
-class OrderListAdapter(private val context: Context,private val listener: OnOrderItemListener, private val list: List<OrderDetails>) : RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
+class PendingOrderListAdapter(private val context: Context, private val listener: OnOrderRequestListener, private val list: List<OrderDetails>) : RecyclerView.Adapter<PendingOrderListAdapter.ViewHolder>() {
     private var selectedPosition = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_order_list,parent,false)
@@ -36,7 +37,7 @@ class OrderListAdapter(private val context: Context,private val listener: OnOrde
             .error(R.drawable.image_placeholder)
             .into(holder.iv_food_image)
         holder.ll_order_item.setOnClickListener {
-            listener.onOrderItemClicked(item.orderId,item)
+            listener.onOrderRequestClicked()
         }
         if(!item.orderStatus.equals("Delivered")){
             holder.tv_order_status.setTextColor(Color.parseColor("#FD8200"))

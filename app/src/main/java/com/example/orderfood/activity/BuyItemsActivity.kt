@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -27,12 +28,15 @@ import com.example.orderfood.adapter.SelectedItemAdapter
 import com.example.orderfood.model.FoodItem
 import androidx.core.net.toUri
 import com.airbnb.lottie.LottieAnimationView
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.orderfood.model.OrderDetails
 import com.example.orderfood.model.OrderItem
 import com.example.orderfood.widgets.FoodDetailBottomSheet
 import com.example.orderfood.widgets.ShowQRCode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.type.DateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -73,6 +77,8 @@ class BuyItemsActivity() : AppCompatActivity() {
     var landmark = "" ;
     var user = ""
     var QrtotalAmount = 0.0
+    var token = ""
+    var orderId=""
     override fun onResume() {
         val sharedPreferences = getSharedPreferences("NameAndAddress", MODE_PRIVATE)
         area = sharedPreferences.getString("area", "").toString()
@@ -94,6 +100,12 @@ class BuyItemsActivity() : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                token = task.result
+                Log.d("FCM", "Token: $token")
+            }
         }
         val foodList = intent.getParcelableArrayListExtra<FoodItem>("foodList")
         btn_change_address = findViewById<TextView>(R.id.btn_change_address)
@@ -128,12 +140,17 @@ class BuyItemsActivity() : AppCompatActivity() {
         }
 
         btn_buy.setOnClickListener {
+            btn_buy.isEnabled = false
             if(tv_name.text.isEmpty() || tv_address.text.isEmpty() || tv_phone.text.isEmpty()){
                 Toast.makeText(this,"Please enter name, phone and address details",Toast.LENGTH_SHORT).show()
+                btn_buy.isEnabled = true
             }else {
                 val sheet = ShowQRCode(QrtotalAmount)
                 sheet.onPaymentDone = {
                     addDataToFireStore()
+                }
+                sheet.onPaymentcancel = {
+                    btn_buy.isEnabled = true
                 }
                 sheet.show(supportFragmentManager, "Show QR Code")
             }
@@ -152,7 +169,7 @@ class BuyItemsActivity() : AppCompatActivity() {
             transaction.update(counterRef, "last_order", newOrder)
             newOrder
         }.addOnSuccessListener { newOrder ->
-            val orderId = "ORD$newOrder"
+            orderId = "ORD$newOrder"
             setData(foodList!!,orderId)
             progress.dismiss()
         }.addOnFailureListener {
@@ -182,13 +199,20 @@ class BuyItemsActivity() : AppCompatActivity() {
 
         db.runTransaction {
             db.collection("OrderData").document(tv_phone.text.toString())
-                .collection("OrderDetails").add(orderDetails!!)
+                .collection("OrderDetails").document(orderId).set(orderDetails!!)
                 .addOnSuccessListener { documentReference ->
                     Toast.makeText(
                         this,
                         "We’re processing your order...",
                         Toast.LENGTH_LONG
                     ).show()
+                    btn_buy.isEnabled = true
+                    /*sendNotificationToAdmin(
+                        adminToken = "AAAAXXXX:APA91bG0Z...",
+                        title = "New Order",
+                        message = "Order #123 has been placed"
+                    )*/
+
                 }
                 .addOnFailureListener {
                     Toast.makeText(
@@ -196,8 +220,36 @@ class BuyItemsActivity() : AppCompatActivity() {
                         "Unable to insert the data",
                         Toast.LENGTH_LONG
                     ).show()
+                    btn_buy.isEnabled = true
                 }
         }
+    }
+    fun sendNotificationToAdmin(adminToken: String, title: String, message: String) {
+        val json = """
+        {
+          "to": "$adminToken",
+          "notification": {
+            "title": "$title",
+            "body": "$message"
+          }
+        }
+    """.trimIndent()
+
+        val url = "https://fcm.googleapis.com/fcm/send"
+
+        val request = object : StringRequest(Method.POST, url,
+            { response -> Log.d("FCM", "Notification sent: $response") },
+            { error -> Log.e("FCM", "Error sending: ${error.message}") }) {
+
+            override fun getHeaders(): MutableMap<String, String> = hashMapOf(
+                "Content-Type" to "application/json",
+                "Authorization" to "key=YOUR_SERVER_KEY" // From Firebase Console → Cloud Messaging
+            )
+
+            override fun getBody(): ByteArray = json.toByteArray(Charsets.UTF_8)
+        }
+
+        Volley.newRequestQueue(this).add(request)
     }
 
 
